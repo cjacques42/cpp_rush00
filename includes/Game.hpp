@@ -7,7 +7,7 @@ class Game {
 
 public:
 
-    static int const FPS = 24;
+    static int const FPS = 60;
 
 	Game(void);
 	Game(Game const &);

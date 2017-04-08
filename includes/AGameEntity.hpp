@@ -15,10 +15,10 @@ public:
 	virtual void	display(WINDOW * win) = 0;
 	virtual void	move(int key) = 0;
 
-	int		getX();
-	int		getY();
-	int		getMoveAP();
-	int		getShootAP();
+	int		getX() const;
+	int		getY() const;
+	int		getMoveAP() const;
+	int		getShootAP() const;
 
 protected:
 	int	x;
@@ -26,10 +26,7 @@ protected:
 	int	move_ap;
 	int	shoot_ap;
 
-	
+
 };
 
 #endif
-
-
-

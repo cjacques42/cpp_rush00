@@ -62,7 +62,7 @@ void Game::loop() {
 	int         fps = 1000 / Game::FPS;
 
     int ch;
-
+	// Enemy enemy(40, 40);
     while(!exit) {
 		ch = getch();
 
@@ -73,6 +73,8 @@ void Game::loop() {
 		} else if (ch == KEY_UP || ch == KEY_DOWN || ch == KEY_RIGHT || ch == KEY_LEFT){
 			this->player.move(ch);
 		}
+		// enemy.move(0);
+		// enemy.display(win);
 		this->display();
 		duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
 		if (duration < fps) {

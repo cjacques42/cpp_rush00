@@ -9,6 +9,7 @@
 // # include "Bullet.hpp"
 // # include "Enemy.hpp"
 # include "Player.hpp"
+# include "Enemy.hpp"
 # include "Game.hpp"
 
 #endif
