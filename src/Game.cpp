@@ -49,7 +49,8 @@ WINDOW *Game::actualize_window(WINDOW *old_win) {
 
 void	Game::display(){
 
-
+	werase(this->win);
+	wborder(win, 0, 0, 0, 0, 0, 0, 0, 0);
 	this->player.display(this->win);
 	wrefresh(this->win);
 
