@@ -94,6 +94,39 @@ void	Game::display(){
 
 }
 
+void    Game::colide() {
+	Enemy * map[COLS][LINES];
+	int x;
+	int y;
+
+	if(this->enemies){
+		map[this->enemies->getX()][this->enemies->getY()] = this->enemies;
+		Enemy	* tmp = this->enemies->next;
+		while(tmp != this->enemies){
+			map[tmp->getX()][tmp->getY()] = tmp;
+			tmp = tmp->next;
+		}
+	}
+	if(this->bullets){
+		x = this->bullets->getX();
+		y = this->bullets->getY();
+		if (x > COLS - 1 || y > LINES - 1 || map[x][y]) {
+			delete map[x][y];
+			delete this->bullets;
+		}
+		Bullet	* tmp = this->bullets->next;
+		while(tmp != this->bullets){
+			x = tmp->getX();
+			y = tmp->getY();
+			if (x > COLS - 1 || y > LINES - 1 || map[x][y]) {
+				delete map[tmp->getX()][tmp->getY()];
+				delete tmp;
+			}
+			tmp = tmp->next;
+		}
+	}
+}
+
 void Game::loop() {
     bool	exit = false;
     std::clock_t start = std::clock();
@@ -119,6 +152,7 @@ void Game::loop() {
 			this->interval += (this->interval > 120) ? -1 : 0;
 			i = 0;
 		}
+		this->colide();
 		this->display();
 		duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
 		if (duration < fps) {

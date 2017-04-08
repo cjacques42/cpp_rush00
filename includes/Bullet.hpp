@@ -11,7 +11,7 @@ public:
 	Bullet(int x, int y);
 	Bullet(Bullet const &);
 	Bullet& operator=(Bullet const &);
-	~Bullet();
+	virtual ~Bullet();
 	
 	void	update();
 

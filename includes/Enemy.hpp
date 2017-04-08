@@ -11,7 +11,7 @@ public:
 	Enemy(int x, int y, Enemy * first);
 	Enemy(Enemy const &);
 	Enemy& operator=(Enemy const &);
-	~Enemy();
+	virtual ~Enemy();
 
 
 
