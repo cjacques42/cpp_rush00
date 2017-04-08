@@ -43,13 +43,18 @@ void	Player::display(WINDOW * win){
 }
 
 void	Player::move(int key){
-	if (key == KEY_DOWN){
+	int max_x, max_y;
+
+	max_x = getmaxx(this->game->getWindow());
+	max_y = getmaxy(this->game->getWindow());
+
+	if (key == KEY_DOWN && this->y < max_y - 2){
 		this->y++;
-	} else if (key == KEY_UP){
+	} else if (key == KEY_UP && this->y > 1){
 		this->y--;
-	} else if (key == KEY_LEFT){
+	} else if (key == KEY_LEFT && this->x > 1){
 		this->x--;
-	}else if (key == KEY_RIGHT){
+	}else if (key == KEY_RIGHT && this->x < max_x - 2){
 		this->x++;
 	}
 }
