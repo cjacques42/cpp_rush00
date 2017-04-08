@@ -21,6 +21,8 @@ WINDOW *actualize_window(WINDOW *old_win) {
 
 int		main(){
 	bool	exit = false;
+	std::clock_t start = std::clock();
+	double		duration;
 
 	initscr();				/* Start curses mode 		*/
 	raw();					/* Line buffering disabled	*/
@@ -45,6 +47,10 @@ int		main(){
 		}
 		p.display(win);
 		wrefresh(win);
+		duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+		if (duration < FPS) {
+			usleep((FPS - duration) * 1000);
+		}
 	}
 
 
