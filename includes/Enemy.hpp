@@ -8,6 +8,7 @@ class Enemy : public AGameEntity
 public:
 	Enemy();
 	Enemy(int x, int y);
+	Enemy(int x, int y, Enemy * first);
 	Enemy(Enemy const &);
 	Enemy& operator=(Enemy const &);
 	~Enemy();

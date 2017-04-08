@@ -32,7 +32,8 @@ Enemy& Enemy::operator=(Enemy const &src) {
 }
 
 Enemy::~Enemy() {
-
+    this->prev->next = this->next;
+    this->next->prev = this->prev;
 }
 
 void    Enemy::update(){
