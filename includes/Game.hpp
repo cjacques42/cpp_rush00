@@ -7,15 +7,17 @@ class Game {
 
 public:
 
-    static int const FPS = 20;
+    static int const FPS = 24;
 
 	Game(void);
 	Game(Game const &);
-	// Game& operator=(Game const &);
+	Game& operator=(Game const &);
 	~Game();
+
 
     void    display();
     void    loop(void);
+    WINDOW *getWindow() const;
 
 private:
 
