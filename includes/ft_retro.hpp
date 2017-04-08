@@ -4,10 +4,10 @@
 # include <iostream>
 # include <curses.h>
 # include <unistd.h>
+# include <cstdlib>
 
 # include "AGameEntity.hpp"
-// # include "Bullet.hpp"
-// # include "Enemy.hpp"
+# include "Bullet.hpp"
 # include "Player.hpp"
 # include "Enemy.hpp"
 # include "Game.hpp"

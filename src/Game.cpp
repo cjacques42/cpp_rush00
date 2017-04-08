@@ -1,6 +1,7 @@
 #include "Game.hpp"
 
-Game::Game() : player(Player::Player()) {
+Game::Game() : interval(800), score(0), player(Player::Player()) {
+	(void)this->score;
 	initscr();
 	raw();
 	keypad(stdscr, TRUE);
@@ -10,6 +11,7 @@ Game::Game() : player(Player::Player()) {
 	this->player = Player();
 	this->win = newwin(ft_min(50, LINES - 2), COLS - 2 , ft_max((LINES - 52) / 2, 1), 1);
     wborder(this->win, 0, 0, 0, 0, 0, 0, 0, 0);
+	srand((unsigned int)time(NULL));
 }
 
 
@@ -26,6 +28,7 @@ Game& Game::operator=(Game const &src) {
     	this->player = src.player;
         this->win = src.getWindow();
     }
+	srand((unsigned int)time(NULL));
     return *this;
 }
 
@@ -49,7 +52,6 @@ WINDOW *Game::actualize_window(WINDOW *old_win) {
 
 void	Game::display(){
 
-
 	this->player.display(this->win);
 	wrefresh(this->win);
 
@@ -60,9 +62,9 @@ void Game::loop() {
     std::clock_t start = std::clock();
 	double		duration;
 	int         fps = 1000 / Game::FPS;
+	int			i = 0;
 
     int ch;
-	// Enemy enemy(40, 40);
     while(!exit) {
 		ch = getch();
 
@@ -73,8 +75,13 @@ void Game::loop() {
 		} else if (ch == KEY_UP || ch == KEY_DOWN || ch == KEY_RIGHT || ch == KEY_LEFT){
 			this->player.move(ch);
 		}
-		// enemy.move(0);
-		// enemy.display(win);
+		if (this->interval == i++) {
+			this->randomEnemy(3);
+			this->interval += (this->interval > 120) ? -1 : 0;
+			i = 0;
+		}
+		// this->move();
+		// this->colide();
 		this->display();
 		duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
 		if (duration < fps) {
@@ -85,4 +92,26 @@ void Game::loop() {
 
 WINDOW *Game::getWindow() const {
     return this->win;
+}
+
+void Game::randomEnemy(int nbr) {
+	int line;
+	int col;
+
+	for (int i = 0; i < nbr; i++) {
+		line = (rand() % 49) + 1;
+		col = COLS - 4;
+
+		Enemy *enemy = new Enemy(col, line);
+		enemy->display(this->win);
+		enemy->move(0);
+	}
+}
+
+void    move(void) {
+
+}
+
+void    colide(void) {
+
 }

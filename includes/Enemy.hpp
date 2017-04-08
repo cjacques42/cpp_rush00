@@ -12,7 +12,6 @@ public:
 	Enemy& operator=(Enemy const &);
 	~Enemy();
 
-
 	virtual void	display(WINDOW * win);
 	virtual void	move(int key);
 };

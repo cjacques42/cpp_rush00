@@ -4,7 +4,7 @@ Enemy::Enemy() {
 
 }
 
-Enemy::Enemy(int x, int y) : AGameEntity(x, y, 60, 60) {
+Enemy::Enemy(int x, int y) : AGameEntity(x, y, 40, 70) {
 
 }
 
@@ -38,7 +38,7 @@ void Enemy::display(WINDOW * win) {
 void Enemy::move(int key) {
     (void)key;
     if (this->move_ap == 0) {
-        this->move_ap = 60;
+        this->move_ap = 40;
         this->x--;
     } else {
         this->move_ap--;
