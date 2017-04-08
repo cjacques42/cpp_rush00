@@ -11,17 +11,20 @@ Game::Game() {
     wborder(this->win, 0, 0, 0, 0, 0, 0, 0, 0);
 }
 
-Game::Game(Game const &) {
-
+Game::Game(Game const &src) {
+	*this = src;
 }
 
 Game::~Game() {
     endwin();
 }
 
-// Game& operator=(Game const &) {
-//
-// }
+Game& Game::operator=(Game const &src) {
+    if (this != &src) {
+        this->win = src.getWindow();
+    }
+    return *this;
+}
 
 int 	Game::ft_min(int a, int b){
 	return (a > b ? b : a);
@@ -45,6 +48,7 @@ void Game::loop() {
     bool	exit = false;
     std::clock_t start = std::clock();
 	double		duration;
+	int         fps = 1000 / Game::FPS;
 
     int ch;
 	Player	p;
@@ -54,15 +58,19 @@ void Game::loop() {
 		if (ch == 4 || ch == 3 || ch == 27){
 			exit = true;
 		} else if (ch == 410) {
-			this->win = actualize_window(this->win);
+			this->win = this->actualize_window(this->win);
 		} else if (ch == KEY_UP || ch == KEY_DOWN || ch == KEY_RIGHT || ch == KEY_LEFT){
 			p.move(ch);
 		}
 		p.display(this->win);
 		wrefresh(this->win);
 		duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
-		if (duration < FPS) {
-			usleep((FPS - duration) * 1000);
+		if (duration < fps) {
+			usleep((fps - duration) * 1000);
 		}
 	}
+}
+
+WINDOW *Game::getWindow() const {
+    return this->win;
 }
