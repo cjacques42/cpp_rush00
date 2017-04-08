@@ -21,15 +21,15 @@ void	Player::display(WINDOW * win){
 	init_pair(1, COLOR_RED, COLOR_BLACK);
 
 	attron(COLOR_PAIR(1));
-	mvwaddch(win, this->x, this->y, '>');
+	mvwaddch(win, this->y, this->x, '>');
 	attroff(COLOR_PAIR(1));
 }
 
 void	Player::move(int key){
 	if (key == KEY_DOWN){
-		this->y--;
-	} else if (key == KEY_UP){
 		this->y++;
+	} else if (key == KEY_UP){
+		this->y--;
 	} else if (key == KEY_LEFT){
 		this->x--;
 	}else if (key == KEY_RIGHT){

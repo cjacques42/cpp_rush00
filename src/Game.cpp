@@ -55,6 +55,8 @@ void Game::loop() {
 			exit = true;
 		} else if (ch == 410) {
 			this->win = actualize_window(this->win);
+		} else if (ch == KEY_UP || ch == KEY_DOWN || ch == KEY_RIGHT || ch == KEY_LEFT){
+			p.move(ch);
 		}
 		p.display(this->win);
 		wrefresh(this->win);
