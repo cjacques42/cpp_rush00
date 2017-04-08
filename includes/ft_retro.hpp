@@ -9,7 +9,6 @@
 // # include "Bullet.hpp"
 // # include "Enemy.hpp"
 # include "Player.hpp"
-
-# define FPS 1000 / 20
+# include "Game.hpp"
 
 #endif

@@ -6,7 +6,7 @@
 #    By: cjacques <cjacques@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/27 10:02:34 by cjacques          #+#    #+#              #
-#    Updated: 2017/04/08 12:27:01 by cjacques         ###   ########.fr        #
+#    Updated: 2017/04/08 15:21:42 by cjacques         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SHELL = /bin/bash
 SRC_NAME =	main.cpp\
 			AGameEntity.cpp\
 			Player.cpp\
+			Game.cpp\
 
 OBJ_NAME = $(SRC_NAME:.cpp=.o)
 OBJ = $(addprefix $(OBJ_PATH), $(OBJ_NAME))
