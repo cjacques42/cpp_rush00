@@ -3,16 +3,23 @@
 #include "Player.hpp"
 #include "Bullet.hpp"
 
-Game::Game() : bullets(NULL), player(Player::Player(this)) {
+Game::Game() : interval(800), score(0), enemies(NULL), bullets(NULL), player(Player::Player(this)) {
+	(void)this->score;
 	initscr();
 	raw();
 	keypad(stdscr, TRUE);
 	noecho();
 	nodelay(stdscr, TRUE);
 
+<<<<<<< HEAD
 	this->player = Player(this);
+=======
+	curs_set(0);
+	this->player = Player();
+>>>>>>> enemy
 	this->win = newwin(ft_min(50, LINES - 2), COLS - 2 , ft_max((LINES - 52) / 2, 1), 1);
     wborder(this->win, 0, 0, 0, 0, 0, 0, 0, 0);
+	srand((unsigned int)time(NULL));
 }
 
 
@@ -29,6 +36,7 @@ Game& Game::operator=(Game const &src) {
     	this->player = src.player;
         this->win = src.getWindow();
     }
+	srand((unsigned int)time(NULL));
     return *this;
 }
 
@@ -73,8 +81,11 @@ WINDOW *Game::actualize_window(WINDOW *old_win) {
 
 void	Game::display(){
 
+<<<<<<< HEAD
 	werase(this->win);
 	wborder(win, 0, 0, 0, 0, 0, 0, 0, 0);
+=======
+>>>>>>> enemy
 	this->player.display(this->win);
 	if(this->bullets){
 		this->bullets->display(win);
@@ -94,9 +105,9 @@ void Game::loop() {
     std::clock_t start = std::clock();
 	double		duration;
 	int         fps = 1000 / Game::FPS;
+	int			i = 0;
 
     int ch;
-
     while(!exit) {
     	start = std::clock();
 		ch = getch();
@@ -108,7 +119,15 @@ void Game::loop() {
 		} else if (ch == KEY_UP || ch == KEY_DOWN || ch == KEY_RIGHT || ch == KEY_LEFT){
 			this->player.move(ch);
 		}
+<<<<<<< HEAD
 		this->update();
+=======
+		if (this->interval == i++) {
+			this->randomEnemy(3);
+			this->interval += (this->interval > 120) ? -1 : 0;
+			i = 0;
+		}
+>>>>>>> enemy
 		this->display();
 		duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
 		if (duration < fps) {
@@ -119,4 +138,29 @@ void Game::loop() {
 
 WINDOW *Game::getWindow() const {
     return this->win;
+}
+
+void Game::randomEnemy(int nbr) {
+	int line;
+	int col;
+
+	for (int i = 0; i < nbr; i++) {
+		line = (rand() % 49) + 1;
+		col = COLS - 4;
+
+		Enemy *tmp;
+		Enemy *prev = NULL;
+		Enemy *enemy = new Enemy(col, line);
+		if (this->enemies == NULL) {
+			this->enemies = enemy;
+		} else {
+			tmp = this->enemies;
+			while (this->enemies->next) {
+				prev = tmp;
+				tmp = tmp->next;
+			}
+			tmp->next = enemy;
+			enemy->prev = prev;
+		}
+	}
 }

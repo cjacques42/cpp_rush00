@@ -4,6 +4,9 @@
 # include "Bullet.hpp"
 # include "Player.hpp"
 # include "ft_retro.hpp"
+# include "Player.hpp"
+# include "Enemy.hpp"
+# include "Bullet.hpp"
 
 class Game {
 
@@ -27,16 +30,21 @@ public:
     Bullet * bullets;
 
 private:
-
+    int     interval;
+    int     score;
     WINDOW	*win;
-
     Player  player;
+    Enemy   *enemies;
+    Bullet  *bullets;
 
 
     int 	ft_min(int a, int b);
     int 	ft_max(int a, int b);
     WINDOW  *actualize_window(WINDOW *old_win);
-};
+    void    randomEnemy(int);
+    void    move(void);
+    void    colide(void);
 
+};
 
 #endif

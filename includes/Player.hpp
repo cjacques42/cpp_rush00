@@ -13,9 +13,9 @@ public:
 	Player(Player const &);
 	Player& operator=(Player const &);
 	~Player();
-	
-	void	update();
 
+	void	update();
+	
 	virtual void	display(WINDOW * win);
 	virtual void	move(int key);
 
@@ -26,4 +26,3 @@ public:
 
 
 #endif
-

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 #include "AGameEntity.hpp"
 
@@ -22,22 +23,21 @@ AGameEntity& AGameEntity::operator=(AGameEntity const &rhs)
 	return *this;
 }
 
-AGameEntity::~AGameEntity(){
+AGameEntity::~AGameEntity() {
 }
 
-int		AGameEntity::getX(){
+int		AGameEntity::getX() const {
 	return this->x;
 }
 
-int		AGameEntity::getY(){
+int		AGameEntity::getY() const {
 	return this->y;
 }
 
-int		AGameEntity::getMoveAP(){
+int		AGameEntity::getMoveAP() const {
 	return this->move_ap;
 }
 
-int		AGameEntity::getShootAP(){
+int		AGameEntity::getShootAP() const {
 	return this->shoot_ap;
 }
-
