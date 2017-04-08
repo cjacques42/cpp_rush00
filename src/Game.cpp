@@ -8,6 +8,7 @@ Game::Game() : interval(800), score(0), player(Player::Player()) {
 	noecho();
 	nodelay(stdscr, TRUE);
 
+	curs_set(0);
 	this->player = Player();
 	this->win = newwin(ft_min(50, LINES - 2), COLS - 2 , ft_max((LINES - 52) / 2, 1), 1);
     wborder(this->win, 0, 0, 0, 0, 0, 0, 0, 0);
@@ -80,8 +81,6 @@ void Game::loop() {
 			this->interval += (this->interval > 120) ? -1 : 0;
 			i = 0;
 		}
-		// this->move();
-		// this->colide();
 		this->display();
 		duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
 		if (duration < fps) {
@@ -106,12 +105,4 @@ void Game::randomEnemy(int nbr) {
 		enemy->display(this->win);
 		enemy->move(0);
 	}
-}
-
-void    move(void) {
-
-}
-
-void    colide(void) {
-
 }

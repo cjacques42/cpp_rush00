@@ -24,7 +24,6 @@ private:
     int     score;
     WINDOW	*win;
     Player  player;
-    // Enemy   *enemies;
 
     int 	ft_min(int a, int b);
     int 	ft_max(int a, int b);
