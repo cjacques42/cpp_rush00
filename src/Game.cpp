@@ -56,6 +56,14 @@ void	Game::update(){
 			tmp = tmp->next;
 		}
 	}
+	if(this->enemies){
+		this->enemies->display(win);
+		Enemy	* tmp = this->enemies->next;
+		while(tmp != this->enemies){
+			tmp->update();
+			tmp = tmp->next;
+		}
+	}
 }
 
 void	Game::newBullet(int x, int y) {
@@ -85,6 +93,14 @@ void	Game::display(){
 		this->bullets->display(win);
 		Bullet	* tmp = this->bullets->next;
 		while(tmp != this->bullets){
+			tmp->display(this->win);
+			tmp = tmp->next;
+		}
+	}
+	if(this->enemies){
+		this->enemies->display(win);
+		Enemy	* tmp = this->enemies->next;
+		while(tmp != this->enemies){
 			tmp->display(this->win);
 			tmp = tmp->next;
 		}
