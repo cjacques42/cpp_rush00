@@ -1,7 +1,7 @@
 #ifndef ENEMEY_HPP
 # define ENEMEY_HPP
 
-# include "ft_retro.hpp"
+# include "AGameEntity.hpp"
 
 class Enemy : public AGameEntity
 {
@@ -12,6 +12,8 @@ public:
 	Enemy& operator=(Enemy const &);
 	~Enemy();
 
+	Enemy	*prev;
+	Enemy	*next;
 	virtual void	display(WINDOW * win);
 	virtual void	move(int key);
 };

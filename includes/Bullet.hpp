@@ -1,7 +1,7 @@
 #ifndef BULLET_HPP
 # define BULLET_HPP
 
-# include "ft_retro.hpp"
+# include "AGameEntity.hpp"
 
 class Bullet : public AGameEntity
 {
@@ -10,7 +10,7 @@ public:
 	Bullet(Bullet const &);
 	Bullet& operator=(Bullet const &);
 	~Bullet();
-	
+
 
 
 	virtual void	display(WINDOW * win);

@@ -2,7 +2,6 @@
 #ifndef PLAYER_HPP
 # define PLAYER_HPP
 
-# include "ft_retro.hpp"
 # include "AGameEntity.hpp"
 
 class Player : public AGameEntity
@@ -12,7 +11,7 @@ public:
 	Player(Player const &);
 	Player& operator=(Player const &);
 	~Player();
-	
+
 
 	virtual void	display(WINDOW * win);
 	virtual void	move(int key);
@@ -20,4 +19,3 @@ public:
 
 
 #endif
-

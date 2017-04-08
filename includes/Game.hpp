@@ -2,6 +2,9 @@
 # define GAME_HPP
 
 # include "ft_retro.hpp"
+# include "Player.hpp"
+# include "Enemy.hpp"
+# include "Bullet.hpp"
 
 class Game {
 
@@ -24,6 +27,8 @@ private:
     int     score;
     WINDOW	*win;
     Player  player;
+    Enemy   *enemies;
+    Bullet  *bullets;
 
     int 	ft_min(int a, int b);
     int 	ft_max(int a, int b);

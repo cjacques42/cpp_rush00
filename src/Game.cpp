@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-Game::Game() : interval(800), score(0), player(Player::Player()) {
+Game::Game() : interval(800), score(0), enemies(NULL), player(Player::Player()) {
 	(void)this->score;
 	initscr();
 	raw();
@@ -101,8 +101,19 @@ void Game::randomEnemy(int nbr) {
 		line = (rand() % 49) + 1;
 		col = COLS - 4;
 
+		Enemy *tmp;
+		Enemy *prev = NULL;
 		Enemy *enemy = new Enemy(col, line);
-		enemy->display(this->win);
-		enemy->move(0);
+		if (this->enemies == NULL) {
+			this->enemies = enemy;
+		} else {
+			tmp = this->enemies;
+			while (this->enemies->next) {
+				prev = tmp;
+				tmp = tmp->next;
+			}
+			tmp->next = enemy;
+			enemy->prev = prev;
+		}
 	}
 }
