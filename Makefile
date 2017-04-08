@@ -17,7 +17,9 @@ OBJ_PATH = obj/
 SRC_PATH = src/
 SHELL = /bin/bash
 
-SRC_NAME =	main.cpp
+SRC_NAME =	main.cpp\
+			AGameEntity.cpp\
+			Player.cpp\
 
 OBJ_NAME = $(SRC_NAME:.cpp=.o)
 OBJ = $(addprefix $(OBJ_PATH), $(OBJ_NAME))
@@ -31,7 +33,7 @@ $(NAME): $(OBJ)
 
 $(OBJ_PATH)%.o:$(SRC_PATH)%.cpp
 	@mkdir -p $(OBJ_PATH)
-	$(CC) $(CFLAGS) -c $^ -o $@
+	$(CC) $(CFLAGS) -I includes -c $^ -o $@
 
 clean:
 	@echo -e "\033[32mClean\033[0m"

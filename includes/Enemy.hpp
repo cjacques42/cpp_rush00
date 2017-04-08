@@ -1,5 +1,7 @@
+#ifndef ENEMEY_HPP
+# define ENEMEY_HPP
 
-
+# include "ft_retro.hpp"
 
 class Enemy : public AGameEntity
 {
@@ -11,6 +13,9 @@ public:
 	~Enemy();
 
 
-	virtual void	display(/* windows ncurse*/ );
-	virtual void	move();
+	virtual void	display(WINDOW * win);
+	virtual void	move(int key);
 };
+
+
+#endif

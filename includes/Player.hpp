@@ -1,4 +1,10 @@
 
+#ifndef PLAYER_HPP
+# define PLAYER_HPP
+
+# include "ft_retro.hpp"
+# include "AGameEntity.hpp"
+
 class Player : public AGameEntity
 {
 public:
@@ -8,6 +14,10 @@ public:
 	~Player();
 	
 
-	virtual void	display(/* windows ncurse*/ );
-	virtual void	move(/* windows ncurse*/ );
+	virtual void	display(WINDOW * win);
+	virtual void	move(int key);
 };
+
+
+#endif
+

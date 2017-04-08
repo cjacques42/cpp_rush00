@@ -1,5 +1,9 @@
+#ifndef BULLET_HPP
+# define BULLET_HPP
 
-class Bullet
+# include "ft_retro.hpp"
+
+class Bullet : public AGameEntity
 {
 public:
 	Bullet();
@@ -9,6 +13,9 @@ public:
 	
 
 
-	virtual void	display(/* windows ncurse*/ );
-	virtual void	move();
+	virtual void	display(WINDOW * win);
+	virtual void	move(int key);
 };
+
+
+#endif
