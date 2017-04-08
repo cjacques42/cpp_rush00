@@ -3,7 +3,7 @@
 #include "Player.hpp"
 #include "Bullet.hpp"
 
-Game::Game() : interval(800), score(0), enemies(NULL), bullets(NULL), player(Player::Player(this)) {
+Game::Game() : bullets(NULL), interval(800), score(0),player(Player::Player(this)), enemies(NULL) {
 	(void)this->score;
 	initscr();
 	raw();
@@ -11,12 +11,9 @@ Game::Game() : interval(800), score(0), enemies(NULL), bullets(NULL), player(Pla
 	noecho();
 	nodelay(stdscr, TRUE);
 
-<<<<<<< HEAD
-	this->player = Player(this);
-=======
 	curs_set(0);
-	this->player = Player();
->>>>>>> enemy
+
+
 	this->win = newwin(ft_min(50, LINES - 2), COLS - 2 , ft_max((LINES - 52) / 2, 1), 1);
     wborder(this->win, 0, 0, 0, 0, 0, 0, 0, 0);
 	srand((unsigned int)time(NULL));
@@ -81,11 +78,8 @@ WINDOW *Game::actualize_window(WINDOW *old_win) {
 
 void	Game::display(){
 
-<<<<<<< HEAD
 	werase(this->win);
 	wborder(win, 0, 0, 0, 0, 0, 0, 0, 0);
-=======
->>>>>>> enemy
 	this->player.display(this->win);
 	if(this->bullets){
 		this->bullets->display(win);
@@ -119,15 +113,12 @@ void Game::loop() {
 		} else if (ch == KEY_UP || ch == KEY_DOWN || ch == KEY_RIGHT || ch == KEY_LEFT){
 			this->player.move(ch);
 		}
-<<<<<<< HEAD
 		this->update();
-=======
 		if (this->interval == i++) {
 			this->randomEnemy(3);
 			this->interval += (this->interval > 120) ? -1 : 0;
 			i = 0;
 		}
->>>>>>> enemy
 		this->display();
 		duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
 		if (duration < fps) {

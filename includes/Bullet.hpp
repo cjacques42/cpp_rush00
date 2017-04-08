@@ -12,13 +12,8 @@ public:
 	Bullet(Bullet const &);
 	Bullet& operator=(Bullet const &);
 	~Bullet();
-<<<<<<< HEAD
 	
 	void	update();
-=======
-
-
->>>>>>> enemy
 
 	virtual void	display(WINDOW * win);
 	virtual void	move(int key);

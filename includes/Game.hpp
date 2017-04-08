@@ -35,7 +35,6 @@ private:
     WINDOW	*win;
     Player  player;
     Enemy   *enemies;
-    Bullet  *bullets;
 
 
     int 	ft_min(int a, int b);
