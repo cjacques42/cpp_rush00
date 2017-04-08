@@ -14,11 +14,14 @@ public:
 	// Game& operator=(Game const &);
 	~Game();
 
-    void loop(void);
+    void    display();
+    void    loop(void);
 
 private:
 
     WINDOW	*win;
+
+    Player  player;
 
     int 	ft_min(int a, int b);
     int 	ft_max(int a, int b);

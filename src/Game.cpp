@@ -1,18 +1,19 @@
 #include "Game.hpp"
 
-Game::Game() {
+Game::Game() : player(Player::Player()) {
 	initscr();
 	raw();
 	keypad(stdscr, TRUE);
 	noecho();
 	nodelay(stdscr, TRUE);
 
+	this->player = Player();
 	this->win = newwin(ft_min(50, LINES - 2), COLS - 2 , ft_max((LINES - 52) / 2, 1), 1);
     wborder(this->win, 0, 0, 0, 0, 0, 0, 0, 0);
 }
 
-Game::Game(Game const &) {
-
+Game::Game(Game const &rhs) : player(rhs.player) {
+	this->win = rhs.win;
 }
 
 Game::~Game() {
@@ -41,13 +42,21 @@ WINDOW *Game::actualize_window(WINDOW *old_win) {
 	return win;
 }
 
+void	Game::display(){
+
+
+	this->player.display(this->win);
+	wrefresh(this->win);
+
+}
+
 void Game::loop() {
     bool	exit = false;
     std::clock_t start = std::clock();
 	double		duration;
 
     int ch;
-	Player	p;
+
     while(!exit) {
 		ch = getch();
 
@@ -56,10 +65,9 @@ void Game::loop() {
 		} else if (ch == 410) {
 			this->win = actualize_window(this->win);
 		} else if (ch == KEY_UP || ch == KEY_DOWN || ch == KEY_RIGHT || ch == KEY_LEFT){
-			p.move(ch);
+			this->player.move(ch);
 		}
-		p.display(this->win);
-		wrefresh(this->win);
+		this->display();
 		duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
 		if (duration < FPS) {
 			usleep((FPS - duration) * 1000);
