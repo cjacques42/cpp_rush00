@@ -21,6 +21,7 @@ SRC_NAME =	main.cpp\
 			AGameEntity.cpp\
 			Player.cpp\
 			Game.cpp\
+			Bullet.cpp
 
 OBJ_NAME = $(SRC_NAME:.cpp=.o)
 OBJ = $(addprefix $(OBJ_PATH), $(OBJ_NAME))

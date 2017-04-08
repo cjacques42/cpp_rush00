@@ -2,19 +2,34 @@
 # define BULLET_HPP
 
 # include "ft_retro.hpp"
+#include "AGameEntity.hpp"
 
 class Bullet : public AGameEntity
 {
 public:
-	Bullet();
+	Bullet(int x, int y, Bullet * first);
+	Bullet(int x, int y);
 	Bullet(Bullet const &);
 	Bullet& operator=(Bullet const &);
 	~Bullet();
 	
-
+	void	update();
 
 	virtual void	display(WINDOW * win);
 	virtual void	move(int key);
+
+	int			getBulletNb();
+
+	Bullet *	next;
+	Bullet *	prev;
+
+
+private:
+	Bullet();
+
+
+	static int	bulletNb;
+	static int const c_move_ap;
 };
 
 

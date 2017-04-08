@@ -1,4 +1,4 @@
-#include "ft_retro.hpp"
+#include "Game.hpp"
 
 int		main(){
 	Game game;

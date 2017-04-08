@@ -1,7 +1,15 @@
 
-#include "ft_retro.hpp"
 
-Player::Player() : AGameEntity(3, 25, -1, 50){
+#include "Player.hpp"
+#include "Bullet.hpp"
+# include "Game.hpp"
+
+const int Player::c_shoot_ap = 20;
+
+Player::Player() : AGameEntity(3, 25, -1, Player::c_shoot_ap){
+}
+
+Player::Player(Game * game) : AGameEntity(3, 25, -1, Player::c_shoot_ap), game(game){
 }
 
 Player::Player(Player const &instance){
@@ -14,6 +22,16 @@ Player& Player::operator=(Player const &rhs){
 }
 
 Player::~Player(){
+}
+
+void	Player::update() {
+	if (this->shoot_ap <= 0){
+		this->shoot_ap = Player::c_shoot_ap;
+		this->game->newBullet(this->x, this->y);
+		this->shoot_ap = Player::c_shoot_ap;
+	} else {
+		this->shoot_ap--;
+	}
 }
 
 void	Player::display(WINDOW * win){

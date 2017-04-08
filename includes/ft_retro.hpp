@@ -5,10 +5,5 @@
 # include <curses.h>
 # include <unistd.h>
 
-# include "AGameEntity.hpp"
-// # include "Bullet.hpp"
-// # include "Enemy.hpp"
-# include "Player.hpp"
-# include "Game.hpp"
 
 #endif

@@ -1,5 +1,5 @@
 
-#include "ft_retro.hpp"
+#include "AGameEntity.hpp"
 
 AGameEntity::AGameEntity() : x(0), y(0), move_ap(0), shoot_ap(0) {
 }
