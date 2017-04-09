@@ -16,7 +16,7 @@ public:
 	Bullet& operator=(Bullet const &);
 	virtual ~Bullet();
 
-	void	update(Enemy ***map, Game &game);
+	void	update(Game &game);
 
 	virtual void	display(WINDOW * win);
 	virtual void	move(int key);

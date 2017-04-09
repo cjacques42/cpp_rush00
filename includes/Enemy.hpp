@@ -19,7 +19,7 @@ public:
 
 	Enemy	*prev;
 	Enemy	*next;
-	void	update(Enemy ***map, Game &game);
+	void	update(Game &game);
 	virtual void	display(WINDOW * win);
 	virtual void	move(int key);
 

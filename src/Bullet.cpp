@@ -40,7 +40,7 @@ int	Bullet::getBulletNb(){
 	return Bullet::bulletNb;
 }
 
-void	Bullet::update(Enemy ***map, Game &game){
+void	Bullet::update(Game &game){
 	if (this->move_ap <= 0){
 		this->move_ap = Bullet::c_move_ap;
 		this->move(KEY_RIGHT);
@@ -50,12 +50,30 @@ void	Bullet::update(Enemy ***map, Game &game){
 	if (this->x >= game.width || this->y >= game.height || this->x < 0 || this->y < 0){
 		game.destroyFirstBullet(this);
 		delete this;
-	} else if (map[this->x][this->y]) {
-		game.destroyFirstEnemy(map[this->x][this->y]);
-		delete map[this->x][this->y];
-		map[this->x][this->y] = NULL;
-		game.destroyFirstBullet(this);
-		delete this;
+	} else {
+		Enemy * tmp = game.enemies;
+		if (tmp){
+			if (tmp->getX() == this->x && tmp->getY() == this->y){
+				game.destroyFirstEnemy(tmp);
+				delete tmp;
+				game.destroyFirstBullet(this);
+				delete this;
+				tmp = NULL;
+			} else {
+				tmp = tmp->next;
+				while (tmp && tmp != game.enemies){
+					if (tmp->getX() == this->x && tmp->getY() == this->y){
+						game.destroyFirstEnemy(tmp);
+						delete tmp;
+						game.destroyFirstBullet(this);
+						delete this;
+						tmp = NULL;
+					}
+					if (tmp)
+						tmp = tmp->next;
+				}
+			}
+		}
 	}
 }
 

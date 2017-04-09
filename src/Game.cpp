@@ -4,7 +4,7 @@
 #include "Bullet.hpp"
 #include <iostream>
 
-Game::Game() : exit(false), map(NULL), enemies(NULL), bullets(NULL), interval(800), player(Player::Player(this)) {
+Game::Game() : exit(false), enemies(NULL), bullets(NULL), interval(800), player(Player::Player(this)) {
 	initscr();
 	raw();
 	keypad(stdscr, TRUE);
@@ -15,13 +15,6 @@ Game::Game() : exit(false), map(NULL), enemies(NULL), bullets(NULL), interval(80
 
 	this->width = COLS - 2;
 	this->height = this->ft_min(50, LINES - 2);
-	this->map = new Enemy**[this->width];
-	for (int i = 0; i < this->width; i++) {
-		this->map[i] = new Enemy*[this->height];
-		for (int j = 0; j < this->height; j++) {
-			this->map[i][j] = NULL;
-		}
-	}
 	this->win = newwin(ft_min(50, LINES - 2), COLS - 2 , ft_max((LINES - 52) / 2, 1), 1);
 	wborder(this->win, 0, 0, 0, 0, 0, 0, 0, 0);
 	srand((unsigned int)time(NULL));
@@ -66,41 +59,27 @@ int 	Game::ft_max(int a, int b){
 }
 
 void	Game::update(){
-	for (int i = 0; i < this->width; i++) {
-		for (int j = 0; j < this->height; j++) {
-			this->map[i][j] = NULL;
-		}
-	}
-
 	if(this->enemies){
-		this->enemies->update(this->map, *this);
+		this->enemies->update(*this);
 		if (this->enemies){
 			Enemy	* tmp = this->enemies->next;
 			while(tmp != this->enemies){
-				tmp->update(this->map, *this);
+				tmp->update(*this);
 				tmp = tmp->next;
 			}
 		}
 	}
-	this->player.update(this->map, *this);
+	this->player.update(*this);
 	if(this->bullets){
-		this->bullets->update(this->map, *this);
+		this->bullets->update(*this);
 		if (this->bullets){
 			Bullet	* tmp = this->bullets->next;
 			while(tmp != this->bullets){
-				tmp->update(this->map, *this);
+				tmp->update(*this);
 				tmp = tmp->next;
 			}
 		}
 
-	}
-	if(this->enemies){
-		this->enemies->display(win);
-		Enemy	* tmp = this->enemies->next;
-		while(tmp != this->enemies){
-			tmp->update();
-			tmp = tmp->next;
-		}
 	}
 }
 
@@ -118,13 +97,6 @@ void	Game::newBullet(int x, int y) {
 WINDOW *Game::actualize_window(WINDOW *old_win) {
 	this->width = COLS - 2;
 	this->height = this->ft_min(50, LINES - 2);
-	this->map = new Enemy**[this->width];
-	for (int i = 0; i < this->width; i++) {
-		this->map[i] = new Enemy*[this->height];
-		for (int j = 0; j < this->height; j++) {
-			this->map[i][j] = NULL;
-		}
-	}
 	WINDOW	*win = newwin(this->height, this->width, this->ft_max((LINES - 52) / 2, 1), 1);
 
 	delwin(old_win);

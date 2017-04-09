@@ -23,7 +23,7 @@ Player& Player::operator=(Player const &rhs){
 Player::~Player(){
 }
 
-void	Player::update(Enemy ***map, Game &game) {
+void	Player::update(Game &game) {
 	if (this->shoot_ap <= 0){
 		this->shoot_ap = Player::c_shoot_ap;
 		this->game->newBullet(this->x, this->y);
@@ -31,14 +31,18 @@ void	Player::update(Enemy ***map, Game &game) {
 	} else {
 		this->shoot_ap--;
 	}
-	if (this->x > game.width){
-		this->x = game.width - 2;
-	}
-	if (this->y > game.height){
-		this->y = game.height - 2;
-	}
-	if (map[this->x][this->y]) {
-		game.exit = true;
+	Enemy *tmp = game.enemies;
+	if (tmp){
+		if (tmp->getX() == this->x && tmp->getY() == this->y){
+			game.exit = true;
+		}
+		tmp = tmp->next;
+		while (tmp != game.enemies){
+			if (tmp->getX() == this->x && tmp->getY() == this->y){
+				game.exit = true;
+			}
+			tmp = tmp->next;
+		}
 	}
 }
 

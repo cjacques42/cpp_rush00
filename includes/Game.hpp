@@ -14,7 +14,6 @@ public:
 
     static int const FPS = 120;
     bool    exit;
-    Enemy   ***map;
     Enemy   *enemies;
     Bullet	*bullets;
     int     width;

@@ -15,7 +15,7 @@ public:
 	Player& operator=(Player const &);
 	~Player();
 
-	void	update(Enemy ***map, Game &game);
+	void	update(Game &game);
 
 	virtual void	display(WINDOW * win);
 	virtual void	move(int key);
