@@ -3,8 +3,7 @@
 #include "Player.hpp"
 #include "Bullet.hpp"
 
-Game::Game() : bullets(NULL), interval(800), score(0),player(Player::Player(this)), enemies(NULL) {
-	(void)this->score;
+Game::Game() : interval(800), player(Player::Player(this)), enemies(NULL), bullets(NULL) {
 	initscr();
 	raw();
 	keypad(stdscr, TRUE);
@@ -56,6 +55,14 @@ void	Game::update(){
 			tmp = tmp->next;
 		}
 	}
+	if(this->enemies){
+		this->enemies->display(win);
+		Enemy	* tmp = this->enemies->next;
+		while(tmp != this->enemies){
+			tmp->update();
+			tmp = tmp->next;
+		}
+	}
 }
 
 void	Game::newBullet(int x, int y) {
@@ -89,9 +96,53 @@ void	Game::display(){
 			tmp = tmp->next;
 		}
 	}
+	if(this->enemies){
+		this->enemies->display(win);
+		Enemy	* tmp = this->enemies->next;
+		while(tmp != this->enemies){
+			tmp->display(this->win);
+			tmp = tmp->next;
+		}
+	}
 
 	wrefresh(this->win);
 
+}
+
+void    Game::colide() {
+	Enemy * map[COLS][LINES];
+	int max_x, max_y;
+	int x, y;
+
+	max_x = getmaxx(this->getWindow());
+	max_y = getmaxy(this->getWindow());
+
+	if(this->enemies){
+		map[this->enemies->getX()][this->enemies->getY()] = this->enemies;
+		Enemy *ptr = this->enemies->next;
+		while(ptr != this->enemies){
+			map[ptr->getX()][ptr->getY()] = ptr;
+			ptr = ptr->next;
+		}
+	}
+	if(this->bullets){
+		x = this->bullets->getX();
+		y = this->bullets->getY();
+		if (x <= 1 || x >= max_x - 2 || y <= 1 || y >= max_y - 2 || map[x][y] != NULL) {
+//			delete map[x][y];
+			delete this->bullets;
+		}
+		Bullet	* tmp = this->bullets->next;
+		while(tmp != this->bullets){
+			x = tmp->getX();
+			y = tmp->getY();
+			if (x <= 1 || x >= max_x - 2 || y <= 1 || y >= max_y - 2 || map[x][y] != NULL) {
+//				delete map[x][y];
+//				delete tmp;
+			}
+			tmp = tmp->next;
+		}
+	}
 }
 
 void Game::loop() {
@@ -119,6 +170,7 @@ void Game::loop() {
 			this->interval += (this->interval > 120) ? -1 : 0;
 			i = 0;
 		}
+		this->colide();
 		this->display();
 		duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
 		if (duration < fps) {
@@ -136,28 +188,13 @@ void Game::randomEnemy(int nbr) {
 	int col;
 
 	for (int i = 0; i < nbr; i++) {
-		line = (rand() % 49) + 1;
+		line = (rand() % 48) + 2;
 		col = COLS - 4;
 
 		if (this->enemies){
-			new Enemy(col, line, enemies);
+//			new Enemy(col, line, enemies);
 		} else {
-			this->enemies = new Enemy(col, line);
+//			this->enemies = new Enemy(col, line);
 		}
-
-		// Enemy *tmp;
-		// Enemy *prev = NULL;
-		// Enemy *enemy = new Enemy(col, line);
-		// if (this->enemies == NULL) {
-		// 	this->enemies = enemy;
-		// } else {
-		// 	tmp = this->enemies;
-		// 	while (this->enemies->next) {
-		// 		prev = tmp;
-		// 		tmp = tmp->next;
-		// 	}
-		// 	tmp->next = enemy;
-		// 	enemy->prev = prev;
-		// }
 	}
 }

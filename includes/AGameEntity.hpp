@@ -10,7 +10,7 @@ public:
 	AGameEntity(int x, int y, int move_ap, int shoot_ap);
 	AGameEntity(AGameEntity const &);
 	AGameEntity& operator=(AGameEntity const &);
-	~AGameEntity();
+	virtual ~AGameEntity();
 
 	virtual void	display(WINDOW * win) = 0;
 	virtual void	move(int key) = 0;

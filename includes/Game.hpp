@@ -24,24 +24,19 @@ public:
     void    loop(void);
     WINDOW *getWindow() const;
     void    newBullet(int x, int y);
-
     void    update();
-
-    Bullet * bullets;
 
 private:
     int     interval;
-    int     score;
     WINDOW	*win;
     Player  player;
     Enemy   *enemies;
-
+    Bullet	*bullets;
 
     int 	ft_min(int a, int b);
     int 	ft_max(int a, int b);
     WINDOW  *actualize_window(WINDOW *old_win);
     void    randomEnemy(int);
-    void    move(void);
     void    colide(void);
 
 };
