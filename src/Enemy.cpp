@@ -43,7 +43,7 @@ void    Enemy::update(Enemy ***map, Game &game){
     if (this->getX() < 1) {
         game.destroyFirstEnemy(this);
         delete this;
-    } else
+    } else if (this->x < game.width && this->y < (game.height - 1))
         map[this->x][this->y] = this;
 }
 

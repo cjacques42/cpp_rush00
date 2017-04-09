@@ -97,10 +97,12 @@ void	Game::update(){
 }
 
 void	Game::newBullet(int x, int y) {
-	if (this->bullets != NULL){
-		new  Bullet(x, y, this->bullets);
-	} else {
-		this->bullets = new Bullet(x, y);
+	if (x < this->width && y < this->height){
+		if (this->bullets != NULL){
+			new  Bullet(x, y, this->bullets);
+		} else {
+			this->bullets = new Bullet(x, y);
+		}
 	}
 }
 
