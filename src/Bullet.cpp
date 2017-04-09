@@ -1,5 +1,6 @@
 
 #include "Bullet.hpp"
+#include "Game.hpp"
 
 int Bullet::bulletNb = 0;
 const int Bullet::c_move_ap = 1;
@@ -8,10 +9,6 @@ Bullet::Bullet() : AGameEntity(0, 0, -1, -1) {
 }
 
 Bullet::Bullet(int x, int y, Bullet * first) : AGameEntity(x, y, Bullet::c_move_ap, -1) {
-	// if (first == NULL){
-	// 	first = this;
-	// 	this->prev = this;
-	// }
 	this->next = first;
 	this->prev = first->prev;
 	first->prev = this;
@@ -19,9 +16,7 @@ Bullet::Bullet(int x, int y, Bullet * first) : AGameEntity(x, y, Bullet::c_move_
 	Bullet::bulletNb++;
 }
 
-Bullet::Bullet(int x, int y) : AGameEntity(x, y, Bullet::c_move_ap, -1) {
-	this->next = this;
-	this->prev = this;
+Bullet::Bullet(int x, int y) : AGameEntity(x, y, Bullet::c_move_ap, -1), next(this), prev(this) {
 	Bullet::bulletNb++;
 }
 
@@ -45,12 +40,22 @@ int	Bullet::getBulletNb(){
 	return Bullet::bulletNb;
 }
 
-void	Bullet::update(){
+void	Bullet::update(Enemy ***map, Game &game){
 	if (this->move_ap <= 0){
 		this->move_ap = Bullet::c_move_ap;
 		this->move(KEY_RIGHT);
 	} else {
 		this->move_ap--;
+	}
+	if (this->x >= game.width || this->y >= game.height || this->x < 0 || this->y < 0){
+		game.destroyFirstBullet(this);
+		delete this;
+	} else if (map[this->x][this->y]) {
+		game.destroyFirstEnemy(map[this->x][this->y]);
+		delete map[this->x][this->y];
+		map[this->x][this->y] = NULL;
+		game.destroyFirstBullet(this);
+		delete this;
 	}
 }
 

@@ -4,6 +4,7 @@
 
 # include "AGameEntity.hpp"
 class Game;
+class Enemy;
 
 class Player : public AGameEntity
 {
@@ -14,8 +15,8 @@ public:
 	Player& operator=(Player const &);
 	~Player();
 
-	void	update();
-	
+	void	update(Enemy ***map, Game &game);
+
 	virtual void	display(WINDOW * win);
 	virtual void	move(int key);
 

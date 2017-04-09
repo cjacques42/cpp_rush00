@@ -2,7 +2,10 @@
 # define BULLET_HPP
 
 # include "ft_retro.hpp"
-#include "AGameEntity.hpp"
+# include "AGameEntity.hpp"
+
+class Enemy;
+class Game;
 
 class Bullet : public AGameEntity
 {
@@ -11,9 +14,9 @@ public:
 	Bullet(int x, int y);
 	Bullet(Bullet const &);
 	Bullet& operator=(Bullet const &);
-	~Bullet();
-	
-	void	update();
+	virtual ~Bullet();
+
+	void	update(Enemy ***map, Game &game);
 
 	virtual void	display(WINDOW * win);
 	virtual void	move(int key);

@@ -2,9 +2,9 @@
 #include "Game.hpp"
 #include "Player.hpp"
 #include "Bullet.hpp"
+#include <iostream>
 
-Game::Game() : bullets(NULL), interval(800), score(0),player(Player::Player(this)), enemies(NULL) {
-	(void)this->score;
+Game::Game() : exit(false), map(NULL), enemies(NULL), bullets(NULL), interval(800), player(Player::Player(this)) {
 	initscr();
 	raw();
 	keypad(stdscr, TRUE);
@@ -13,9 +13,17 @@ Game::Game() : bullets(NULL), interval(800), score(0),player(Player::Player(this
 
 	curs_set(0);
 
-
+	this->width = COLS - 2;
+	this->height = this->ft_min(50, LINES - 2);
+	this->map = new Enemy**[this->width];
+	for (int i = 0; i < this->width; i++) {
+		this->map[i] = new Enemy*[this->height];
+		for (int j = 0; j < this->height; j++) {
+			this->map[i][j] = NULL;
+		}
+	}
 	this->win = newwin(ft_min(50, LINES - 2), COLS - 2 , ft_max((LINES - 52) / 2, 1), 1);
-    wborder(this->win, 0, 0, 0, 0, 0, 0, 0, 0);
+	wborder(this->win, 0, 0, 0, 0, 0, 0, 0, 0);
 	srand((unsigned int)time(NULL));
 }
 
@@ -25,16 +33,28 @@ Game::Game(Game const &src) {
 }
 
 Game::~Game() {
-    endwin();
+	Enemy *tmp;
+	Bullet *ptr;
+	while (this->enemies) {
+		tmp = this->enemies;
+		this->destroyFirstEnemy(tmp);
+        delete tmp;
+	}
+	while (this->bullets) {
+		ptr = this->bullets;
+		this->destroyFirstBullet(ptr);
+        delete ptr;
+	}
+	endwin();
 }
 
 Game& Game::operator=(Game const &src) {
-    if (this != &src) {
-    	this->player = src.player;
-        this->win = src.getWindow();
-    }
+	if (this != &src) {
+		this->player = src.player;
+		this->win = src.getWindow();
+	}
 	srand((unsigned int)time(NULL));
-    return *this;
+	return *this;
 }
 
 int 	Game::ft_min(int a, int b){
@@ -46,15 +66,33 @@ int 	Game::ft_max(int a, int b){
 }
 
 void	Game::update(){
-	this->player.update();
-
-	if(this->bullets){
-		this->bullets->update();
-		Bullet	* tmp = this->bullets->next;
-		while(tmp != this->bullets){
-			tmp->update();
-			tmp = tmp->next;
+	for (int i = 0; i < this->width; i++) {
+		for (int j = 0; j < this->height; j++) {
+			this->map[i][j] = NULL;
 		}
+	}
+
+	if(this->enemies){
+		this->enemies->update(this->map, *this);
+		if (this->enemies){
+			Enemy	* tmp = this->enemies->next;
+			while(tmp != this->enemies){
+				tmp->update(this->map, *this);
+				tmp = tmp->next;
+			}
+		}
+	}
+	this->player.update(this->map, *this);
+	if(this->bullets){
+		this->bullets->update(this->map, *this);
+		if (this->bullets){
+			Bullet	* tmp = this->bullets->next;
+			while(tmp != this->bullets){
+				tmp->update(this->map, *this);
+				tmp = tmp->next;
+			}
+		}
+
 	}
 	if(this->enemies){
 		this->enemies->display(win);
@@ -67,17 +105,27 @@ void	Game::update(){
 }
 
 void	Game::newBullet(int x, int y) {
-	if (this->bullets != NULL){
-		new  Bullet(x, y, this->bullets);
-	} else {
-		this->bullets = new Bullet(x, y);
+	if (x < this->width && y < this->height){
+		if (this->bullets != NULL){
+			new  Bullet(x, y, this->bullets);
+		} else {
+			this->bullets = new Bullet(x, y);
+		}
 	}
 }
 
 
 WINDOW *Game::actualize_window(WINDOW *old_win) {
-
-	WINDOW	*win = newwin(this->ft_min(50, LINES - 2), COLS - 2 , this->ft_max((LINES - 52) / 2, 1), 1);
+	this->width = COLS - 2;
+	this->height = this->ft_min(50, LINES - 2);
+	this->map = new Enemy**[this->width];
+	for (int i = 0; i < this->width; i++) {
+		this->map[i] = new Enemy*[this->height];
+		for (int j = 0; j < this->height; j++) {
+			this->map[i][j] = NULL;
+		}
+	}
+	WINDOW	*win = newwin(this->height, this->width, this->ft_max((LINES - 52) / 2, 1), 1);
 
 	delwin(old_win);
 	wborder(win, 0, 0, 0, 0, 0, 0, 0, 0);
@@ -110,20 +158,35 @@ void	Game::display(){
 
 }
 
+void    Game::destroyFirstBullet(Bullet *toDel) {
+	if (this->bullets == toDel) {
+		this->bullets = toDel->prev;
+		if (this->bullets == toDel)
+			this->bullets = NULL;
+	}
+}
+
+void    Game::destroyFirstEnemy(Enemy *toDel) {
+	if (this->enemies == toDel) {
+		this->enemies = toDel->prev;
+		if (this->enemies == toDel)
+			this->enemies = NULL;
+	}
+}
+
 void Game::loop() {
-    bool	exit = false;
-    std::clock_t start = std::clock();
+	std::clock_t start = std::clock();
 	double		duration;
 	int         fps = 1000 / Game::FPS;
 	int			i = 0;
 
-    int ch;
-    while(!exit) {
-    	start = std::clock();
+	int ch;
+	while(!this->exit) {
+		start = std::clock();
 		ch = getch();
 
 		if (ch == 4 || ch == 3 || ch == 27){
-			exit = true;
+			this->exit = true;
 		} else if (ch == 410) {
 			this->win = this->actualize_window(this->win);
 		} else if (ch == KEY_UP || ch == KEY_DOWN || ch == KEY_RIGHT || ch == KEY_LEFT){
@@ -144,7 +207,7 @@ void Game::loop() {
 }
 
 WINDOW *Game::getWindow() const {
-    return this->win;
+	return this->win;
 }
 
 void Game::randomEnemy(int nbr) {
@@ -152,28 +215,13 @@ void Game::randomEnemy(int nbr) {
 	int col;
 
 	for (int i = 0; i < nbr; i++) {
-		line = (rand() % 49) + 1;
-		col = COLS - 4;
+		line = (rand() % (this->height - 2)) + 1;
+		col = this->width - 2;
 
-		if (this->enemies){
-			new Enemy(col, line, enemies);
+		if (this->enemies != NULL){
+			new Enemy(col, line, this->enemies);
 		} else {
 			this->enemies = new Enemy(col, line);
 		}
-
-		// Enemy *tmp;
-		// Enemy *prev = NULL;
-		// Enemy *enemy = new Enemy(col, line);
-		// if (this->enemies == NULL) {
-		// 	this->enemies = enemy;
-		// } else {
-		// 	tmp = this->enemies;
-		// 	while (this->enemies->next) {
-		// 		prev = tmp;
-		// 		tmp = tmp->next;
-		// 	}
-		// 	tmp->next = enemy;
-		// 	enemy->prev = prev;
-		// }
 	}
 }

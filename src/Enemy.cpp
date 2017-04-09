@@ -1,12 +1,14 @@
 #include "Enemy.hpp"
+#include "Game.hpp"
 
-const int Enemy::c_move_ap = 40;
+const int Enemy::c_move_ap = 25;
 
 Enemy::Enemy() {
 
 }
 
 Enemy::Enemy(int x, int y) : AGameEntity(x, y, 40, 70), prev(this), next(this) {
+
 }
 
 Enemy::Enemy(int x, int y, Enemy * first) : AGameEntity(x, y, 40, 70){
@@ -22,12 +24,7 @@ Enemy::Enemy(Enemy const &src) {
 }
 
 Enemy& Enemy::operator=(Enemy const &src) {
-    if (this != &src) {
-    	this->x = src.getX();
-        this->y = src.getY();
-        this->move_ap = src.getMoveAP();
-        this->shoot_ap = src.getShootAP();
-    }
+    AGameEntity::operator=(src);
     return *this;
 }
 
@@ -36,13 +33,18 @@ Enemy::~Enemy() {
     this->next->prev = this->prev;
 }
 
-void    Enemy::update(){
+void    Enemy::update(Enemy ***map, Game &game){
     if (this->move_ap <= 0) {
         this->move_ap = Enemy::c_move_ap;
         this->move(KEY_LEFT);
     } else {
         this->move_ap--;
     }
+    if (this->getX() < 1) {
+        game.destroyFirstEnemy(this);
+        delete this;
+    } else if (this->x < game.width && this->y < (game.height - 1))
+        map[this->x][this->y] = this;
 }
 
 void Enemy::display(WINDOW * win) {

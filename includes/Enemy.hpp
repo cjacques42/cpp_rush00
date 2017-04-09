@@ -3,6 +3,8 @@
 
 # include "AGameEntity.hpp"
 
+class Game;
+
 class Enemy : public AGameEntity
 {
 public:
@@ -11,13 +13,13 @@ public:
 	Enemy(int x, int y, Enemy * first);
 	Enemy(Enemy const &);
 	Enemy& operator=(Enemy const &);
-	~Enemy();
+	virtual ~Enemy();
 
 
 
 	Enemy	*prev;
 	Enemy	*next;
-	void	update();
+	void	update(Enemy ***map, Game &game);
 	virtual void	display(WINDOW * win);
 	virtual void	move(int key);
 

@@ -3,12 +3,12 @@
 #include "Bullet.hpp"
 # include "Game.hpp"
 
-const int Player::c_shoot_ap = 20;
+const int Player::c_shoot_ap = 70;
 
 Player::Player() : AGameEntity(3, 25, -1, Player::c_shoot_ap){
 }
 
-Player::Player(Game * game) : AGameEntity(3, 25, -1, Player::c_shoot_ap), game(game){
+Player::Player(Game * game) : AGameEntity(30, 25, -1, Player::c_shoot_ap), game(game){
 }
 
 Player::Player(Player const &instance){
@@ -23,7 +23,7 @@ Player& Player::operator=(Player const &rhs){
 Player::~Player(){
 }
 
-void	Player::update() {
+void	Player::update(Enemy ***map, Game &game) {
 	if (this->shoot_ap <= 0){
 		this->shoot_ap = Player::c_shoot_ap;
 		this->game->newBullet(this->x, this->y);
@@ -31,10 +31,19 @@ void	Player::update() {
 	} else {
 		this->shoot_ap--;
 	}
+	if (this->x > game.width){
+		this->x = game.width - 2;
+	}
+	if (this->y > game.height){
+		this->y = game.height - 2;
+	}
+	if (map[this->x][this->y]) {
+		game.exit = true;
+	}
 }
 
 void	Player::display(WINDOW * win){
-	start_color();			/* Start color 			*/
+	start_color();
 	init_pair(1, COLOR_RED, COLOR_BLACK);
 
 	attron(COLOR_PAIR(1));
@@ -45,8 +54,13 @@ void	Player::display(WINDOW * win){
 void	Player::move(int key){
 	int max_x, max_y;
 
+<<<<<<< HEAD
 	max_x = getmaxx(this->game->getWindow());
 	max_y = getmaxy(this->game->getWindow());
+=======
+	max_x = this->game->width;
+	max_y = this->game->height;
+>>>>>>> master
 
 	if (key == KEY_DOWN && this->y < max_y - 2){
 		this->y++;
