@@ -59,6 +59,7 @@ void	Bullet::update(Game &game){
 				game.destroyFirstBullet(this);
 				delete this;
 				tmp = NULL;
+				game.score += 10;
 			} else {
 				tmp = tmp->next;
 				while (tmp && tmp != game.enemies){
@@ -68,6 +69,7 @@ void	Bullet::update(Game &game){
 						game.destroyFirstBullet(this);
 						delete this;
 						tmp = NULL;
+						game.score += 10;
 					}
 					if (tmp)
 						tmp = tmp->next;

@@ -8,7 +8,7 @@ const int Player::c_shoot_ap = 70;
 Player::Player() : AGameEntity(3, 25, -1, Player::c_shoot_ap){
 }
 
-Player::Player(Game * game) : AGameEntity(30, 25, -1, Player::c_shoot_ap), game(game){
+Player::Player(Game * game) : AGameEntity(3, 25, -1, Player::c_shoot_ap), game(game){
 }
 
 Player::Player(Player const &instance){
@@ -34,14 +34,31 @@ void	Player::update(Game &game) {
 	Enemy *tmp = game.enemies;
 	if (tmp){
 		if (tmp->getX() == this->x && tmp->getY() == this->y){
-			game.exit = true;
-		}
-		tmp = tmp->next;
-		while (tmp != game.enemies){
-			if (tmp->getX() == this->x && tmp->getY() == this->y){
+			if (game.life <= 0)
 				game.exit = true;
+			else {
+				game.life -= 1;
+				game.destroyFirstEnemy(tmp);
+		        delete tmp;
+		        tmp = NULL;
 			}
+		}
+		if (tmp){
 			tmp = tmp->next;
+			while (tmp && tmp != game.enemies){
+				if (tmp->getX() == this->x && tmp->getY() == this->y){
+					if (game.life <= 0)
+						game.exit = true;
+					else {
+						game.life -= 1;
+						game.destroyFirstEnemy(tmp);
+				        delete tmp;
+				        tmp = NULL;
+					}
+				}
+				if (tmp)
+					tmp = tmp->next;
+			}
 		}
 	}
 }

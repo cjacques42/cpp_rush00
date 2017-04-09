@@ -4,7 +4,8 @@
 #include "Bullet.hpp"
 #include <iostream>
 
-Game::Game() : exit(false), enemies(NULL), bullets(NULL), interval(800), player(Player::Player(this)) {
+
+Game::Game() : exit(false), enemies(NULL), bullets(NULL), score(0), life(3), interval(800), player(Player::Player(this)) {
 	initscr();
 	raw();
 	keypad(stdscr, TRUE);
@@ -39,6 +40,9 @@ Game::~Game() {
         delete ptr;
 	}
 	endwin();
+	std::cout << "GAME OVER" << std::endl;
+	std::cout << "Score : " << this->score << std::endl;
+	std::cout << "Timer : " << this->timer << std::endl;
 }
 
 Game& Game::operator=(Game const &src) {
@@ -108,6 +112,9 @@ void	Game::display(){
 
 	werase(this->win);
 	wborder(win, 0, 0, 0, 0, 0, 0, 0, 0);
+	mvprintw(LINES - 2, COLS - 30, "Score : %d", this->score);
+	mvprintw(LINES - 2, COLS - 60, "Live : %d", this->life);
+	mvprintw(LINES - 2, COLS - 90, "Time : %.5s", this->timer);
 	this->player.display(this->win);
 	if(this->bullets){
 		this->bullets->display(win);
@@ -148,11 +155,13 @@ void    Game::destroyFirstEnemy(Enemy *toDel) {
 
 void Game::loop() {
 	std::clock_t start = std::clock();
+	std::time_t t = std::time(NULL);
 	double		duration;
 	int         fps = 1000 / Game::FPS;
 	int			i = 0;
 
 	int ch;
+
 	while(!this->exit) {
 		start = std::clock();
 		ch = getch();
@@ -171,6 +180,8 @@ void Game::loop() {
 			i = 0;
 		}
 		this->display();
+		std::time_t e = std::time(NULL) - t;
+		sprintf(this->timer, "%.2ld:%.2ld", e / 60, e % 60);
 		duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
 		if (duration < fps) {
 			usleep((fps - duration) * 1000);
