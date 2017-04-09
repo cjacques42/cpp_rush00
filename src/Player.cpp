@@ -31,6 +31,12 @@ void	Player::update(Enemy ***map, Game &game) {
 	} else {
 		this->shoot_ap--;
 	}
+	if (this->x > game.width){
+		this->x = game.width - 2;
+	}
+	if (this->y > game.height){
+		this->y = game.height - 2;
+	}
 	if (map[this->x][this->y]) {
 		if (game.life <= 0)
 			game.exit = true;

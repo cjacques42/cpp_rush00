@@ -41,22 +41,20 @@ int	Bullet::getBulletNb(){
 }
 
 void	Bullet::update(Enemy ***map, Game &game){
-	int max_x;
-
 	if (this->move_ap <= 0){
 		this->move_ap = Bullet::c_move_ap;
 		this->move(KEY_RIGHT);
 	} else {
 		this->move_ap--;
 	}
-	max_x = game.width;
-	if (this->getX() >= max_x - 1 || map[this->x][this->y]) {
-		if (!(this->getX() >= max_x - 1) &&  map[this->x][this->y]) {
-			game.destroyFirstEnemy(map[this->x][this->y]);
-			game.score += 10;
-			delete map[this->x][this->y];
-			map[this->x][this->y] = NULL;
-		}
+	if (this->x >= game.width || this->y >= game.height || this->x < 0 || this->y < 0){
+		game.destroyFirstBullet(this);
+		delete this;
+	} else if (map[this->x][this->y]) {
+		game.score += 10;
+		game.destroyFirstEnemy(map[this->x][this->y]);
+		delete map[this->x][this->y];
+		map[this->x][this->y] = NULL;
 		game.destroyFirstBullet(this);
 		delete this;
 	}

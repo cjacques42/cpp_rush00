@@ -101,10 +101,12 @@ void	Game::update(){
 }
 
 void	Game::newBullet(int x, int y) {
-	if (this->bullets != NULL){
-		new  Bullet(x, y, this->bullets);
-	} else {
-		this->bullets = new Bullet(x, y);
+	if (x < this->width && y < this->height){
+		if (this->bullets != NULL){
+			new  Bullet(x, y, this->bullets);
+		} else {
+			this->bullets = new Bullet(x, y);
+		}
 	}
 }
 
@@ -200,7 +202,7 @@ void Game::loop() {
 		}
 		this->display();
 		std::time_t e = std::time(NULL) - t;
-		sprintf(this->timer, "%.2ld:%.2ld", (e / 60) + 99, e % 60);
+		sprintf(this->timer, "%.2ld:%.2ld", e / 60, e % 60);
 		duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
 		if (duration < fps) {
 			usleep((fps - duration) * 1000);
