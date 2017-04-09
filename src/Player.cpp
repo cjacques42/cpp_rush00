@@ -3,7 +3,7 @@
 #include "Bullet.hpp"
 # include "Game.hpp"
 
-const int Player::c_shoot_ap = 70;
+const int Player::c_shoot_ap = 5;
 
 Player::Player() : AGameEntity(3, 25, -1, Player::c_shoot_ap){
 }

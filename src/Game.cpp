@@ -103,6 +103,7 @@ void	Game::newBullet(int x, int y) {
 
 
 WINDOW *Game::actualize_window(WINDOW *old_win) {
+	erase();
 	this->width = COLS - 2;
 	this->height = this->ft_min(50, LINES - 2);
 	WINDOW	*win = newwin(this->height, this->width, this->ft_max((LINES - 52) / 2, 1), 1);

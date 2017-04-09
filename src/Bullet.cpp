@@ -72,6 +72,7 @@ void	Bullet::update(Game &game){
 							tmp = NULL;
 							game.score += 10;
 						}
+						tmp = NULL;
 						game.destroyFirstBullet(this);
 						delete this;
 					}
