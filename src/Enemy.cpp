@@ -45,7 +45,7 @@ void    Enemy::update(Enemy ***map, Game &game){
         game.destroyFirstEnemy(this);
         delete this;
     } else
-        map[game.enemies->getX()][game.enemies->getY()] = game.enemies;
+        map[this->x][this->y] = this;
 }
 
 void Enemy::display(WINDOW * win) {

@@ -2,6 +2,7 @@
 #include "Game.hpp"
 #include "Player.hpp"
 #include "Bullet.hpp"
+#include <iostream>
 
 Game::Game() : exit(false), map(NULL), enemies(NULL), bullets(NULL), interval(800), player(Player::Player(this)) {
 	initscr();
@@ -70,11 +71,14 @@ void	Game::update(){
 	this->player.update(this->map, *this);
 	if(this->bullets){
 		this->bullets->update(this->map, *this);
-		Bullet	* tmp = this->bullets->next;
-		while(tmp != this->bullets){
-			tmp->update(this->map, *this);
-			tmp = tmp->next;
+		if (this->bullets){
+			Bullet	* tmp = this->bullets->next;
+			while(tmp != this->bullets){
+				tmp->update(this->map, *this);
+				tmp = tmp->next;
+			}
 		}
+
 	}
 }
 

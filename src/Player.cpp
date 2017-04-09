@@ -8,7 +8,7 @@ const int Player::c_shoot_ap = 40;
 Player::Player() : AGameEntity(3, 25, -1, Player::c_shoot_ap){
 }
 
-Player::Player(Game * game) : AGameEntity(3, 25, -1, Player::c_shoot_ap), game(game){
+Player::Player(Game * game) : AGameEntity(30, 25, -1, Player::c_shoot_ap), game(game){
 }
 
 Player::Player(Player const &instance){
@@ -59,7 +59,7 @@ void	Player::move(int key){
 		this->y--;
 	} else if (key == KEY_LEFT && this->x > 1){
 		this->x--;
-	}else if (key == KEY_RIGHT && this->x < max_x - 2){
+	}else if (key == KEY_RIGHT && this->x < max_x - 1){
 		this->x++;
 	}
 }

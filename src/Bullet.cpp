@@ -51,9 +51,7 @@ void	Bullet::update(Enemy ***map, Game &game){
 	}
 	max_x = game.width;
 	if (this->getX() >= max_x - 1 || map[this->x][this->y]) {
-		mvprintw(1, 1, "%d %d", this->getX() >= max_x - 1, map[this->x][this->y]);
-		mvprintw(2, 1, "%d %d", this->getX(), max_x);
-		if (map[this->x][this->y]) {
+		if (!(this->getX() >= max_x - 1) &&  map[this->x][this->y]) {
 			game.destroyFirstEnemy(map[this->x][this->y]);
 			delete map[this->x][this->y];
 			map[this->x][this->y] = NULL;
