@@ -1,12 +1,14 @@
 #include "Enemy.hpp"
 
-const int Enemy::c_move_ap = 40;
+const int Enemy::c_move_ap = 30;
+// const int Enemy::c_move_ap = 5;
 
 Enemy::Enemy() {
 
 }
 
 Enemy::Enemy(int x, int y) : AGameEntity(x, y, 40, 70), prev(this), next(this) {
+
 }
 
 Enemy::Enemy(int x, int y, Enemy * first) : AGameEntity(x, y, 40, 70){
@@ -22,12 +24,7 @@ Enemy::Enemy(Enemy const &src) {
 }
 
 Enemy& Enemy::operator=(Enemy const &src) {
-    if (this != &src) {
-    	this->x = src.getX();
-        this->y = src.getY();
-        this->move_ap = src.getMoveAP();
-        this->shoot_ap = src.getShootAP();
-    }
+    AGameEntity::operator=(src);
     return *this;
 }
 

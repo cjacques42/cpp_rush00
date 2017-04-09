@@ -56,7 +56,7 @@ void	Game::update(){
 		}
 	}
 	if(this->enemies){
-		this->enemies->display(win);
+		this->enemies->update();
 		Enemy	* tmp = this->enemies->next;
 		while(tmp != this->enemies){
 			tmp->update();
@@ -113,11 +113,29 @@ void    Game::colide() {
 	Enemy *map[COLS][LINES];
 	int x, y;
 
+	for (int i = 0; i < COLS; i++) {
+		for (int j = 0; j < LINES; j++) {
+			map[i][j] = NULL;
+		}
+	}
 	if(this->enemies){
-		map[this->enemies->getX()][this->enemies->getY()] = this->enemies;
-		Enemy *ptr = this->enemies->next;
+		Enemy *ptr = this->enemies;
+		if (ptr->getX() < 1) {
+			this->enemies = ptr->prev;
+			if (this->enemies == ptr)
+				this->enemies = NULL;
+			delete ptr;
+		} else
+			map[this->enemies->getX()][this->enemies->getY()] = this->enemies;
+		ptr = this->enemies->next;
 		while(ptr != this->enemies){
-			map[ptr->getX()][ptr->getY()] = ptr;
+			if (ptr->getX() < 1) {
+				this->enemies = ptr->prev;
+				if (this->enemies == ptr)
+					this->enemies = NULL;
+				delete ptr;
+			} else
+				map[ptr->getX()][ptr->getY()] = ptr;
 			ptr = ptr->next;
 		}
 	}
@@ -125,34 +143,34 @@ void    Game::colide() {
 		Bullet	* tmp = this->bullets;
 		x = tmp->getX();
 		y = tmp->getY();
-		if (x > COLS - 4) {
+		if (x > COLS - 4 || map[x][y] != NULL) {
 			this->bullets = tmp->prev;
 			if (this->bullets == tmp)
 				this->bullets = NULL;
 			delete tmp;
 		}
-//		if (map[x][y] != NULL) {
-//			this->enemies = map[x][y]->prev;
-//			if (this->enemies == map[x][y])
-//				this->enemies = NULL;
-//			delete map[x][y];
-//		}
+		if (map[x][y] != NULL) {
+			this->enemies = map[x][y]->prev;
+			if (this->enemies == map[x][y])
+				this->enemies = NULL;
+			delete map[x][y];
+		}
 		tmp = this->bullets->next;
 		while(tmp != this->bullets){
 			x = tmp->getX();
 			y = tmp->getY();
-			if (x > COLS - 4) {
+			if (x > COLS - 4 || map[x][y] != NULL) {
 				this->bullets = tmp->prev;
 				if (this->bullets == tmp)
 					this->bullets = NULL;
 				delete tmp;
 			}
-//			if (map[x][y] != NULL) {
-//				this->enemies = map[x][y]->prev;
-//				if (this->enemies == map[x][y])
-//					this->enemies = NULL;
-//				delete map[x][y];
-//			}
+			if (map[x][y] != NULL) {
+				this->enemies = map[x][y]->prev;
+				if (this->enemies == map[x][y])
+					this->enemies = NULL;
+				delete map[x][y];
+			}
 			tmp = tmp->next;
 		}
 	}
@@ -201,11 +219,11 @@ void Game::randomEnemy(int nbr) {
 	int col;
 
 	for (int i = 0; i < nbr; i++) {
-		line = (rand() % 48) + 2;
+		line = (rand() % 48) + 1;
 		col = COLS - 4;
 
-		if (this->enemies){
-			new Enemy(col, line, enemies);
+		if (this->enemies != NULL){
+			new Enemy(col, line, this->enemies);
 		} else {
 			this->enemies = new Enemy(col, line);
 		}

@@ -8,10 +8,6 @@ Bullet::Bullet() : AGameEntity(0, 0, -1, -1) {
 }
 
 Bullet::Bullet(int x, int y, Bullet * first) : AGameEntity(x, y, Bullet::c_move_ap, -1) {
-	// if (first == NULL){
-	// 	first = this;
-	// 	this->prev = this;
-	// }
 	this->next = first;
 	this->prev = first->prev;
 	first->prev = this;
@@ -19,9 +15,7 @@ Bullet::Bullet(int x, int y, Bullet * first) : AGameEntity(x, y, Bullet::c_move_
 	Bullet::bulletNb++;
 }
 
-Bullet::Bullet(int x, int y) : AGameEntity(x, y, Bullet::c_move_ap, -1) {
-	this->next = this;
-	this->prev = this;
+Bullet::Bullet(int x, int y) : AGameEntity(x, y, Bullet::c_move_ap, -1), next(this), prev(this) {
 	Bullet::bulletNb++;
 }
 
