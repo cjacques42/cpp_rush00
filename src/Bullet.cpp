@@ -1,5 +1,6 @@
 
 #include "Bullet.hpp"
+#include "Game.hpp"
 
 int Bullet::bulletNb = 0;
 const int Bullet::c_move_ap = 1;
@@ -39,12 +40,26 @@ int	Bullet::getBulletNb(){
 	return Bullet::bulletNb;
 }
 
-void	Bullet::update(){
+void	Bullet::update(Enemy ***map, Game &game){
+	int max_x;
+
 	if (this->move_ap <= 0){
 		this->move_ap = Bullet::c_move_ap;
 		this->move(KEY_RIGHT);
 	} else {
 		this->move_ap--;
+	}
+	max_x = game.width;
+	if (this->getX() >= max_x - 1 || map[this->x][this->y]) {
+		mvprintw(1, 1, "%d %d", this->getX() >= max_x - 1, map[this->x][this->y]);
+		mvprintw(2, 1, "%d %d", this->getX(), max_x);
+		if (map[this->x][this->y]) {
+			game.destroyFirstEnemy(map[this->x][this->y]);
+			delete map[this->x][this->y];
+			map[this->x][this->y] = NULL;
+		}
+		game.destroyFirstBullet(this);
+		delete this;
 	}
 }
 

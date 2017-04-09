@@ -23,13 +23,18 @@ Player& Player::operator=(Player const &rhs){
 Player::~Player(){
 }
 
-void	Player::update() {
+void	Player::update(Enemy ***map, Game &game) {
 	if (this->shoot_ap <= 0){
 		this->shoot_ap = Player::c_shoot_ap;
 		this->game->newBullet(this->x, this->y);
 		this->shoot_ap = Player::c_shoot_ap;
 	} else {
 		this->shoot_ap--;
+	}
+	// (void)map;
+	// (void)game;
+	if (map[this->x][this->y]) {
+		game.exit = true;
 	}
 }
 
@@ -45,8 +50,8 @@ void	Player::display(WINDOW * win){
 void	Player::move(int key){
 	int max_x, max_y;
 
-	max_x = getmaxx(this->game->getWindow());
-	max_y = getmaxy(this->game->getWindow());
+	max_x = this->game->width;
+	max_y = this->game->height;
 
 	if (key == KEY_DOWN && this->y < max_y - 2){
 		this->y++;

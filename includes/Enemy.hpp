@@ -3,6 +3,8 @@
 
 # include "AGameEntity.hpp"
 
+class Game;
+
 class Enemy : public AGameEntity
 {
 public:
@@ -17,7 +19,7 @@ public:
 
 	Enemy	*prev;
 	Enemy	*next;
-	void	update();
+	void	update(Enemy ***map, Game &game);
 	virtual void	display(WINDOW * win);
 	virtual void	move(int key);
 

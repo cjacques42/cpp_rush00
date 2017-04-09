@@ -13,6 +13,12 @@ class Game {
 public:
 
     static int const FPS = 120;
+    bool    exit;
+    Enemy   ***map;
+    Enemy   *enemies;
+    Bullet	*bullets;
+    int     width;
+    int     height;
 
 	Game(void);
 	Game(Game const &);
@@ -25,13 +31,13 @@ public:
     WINDOW *getWindow() const;
     void    newBullet(int x, int y);
     void    update();
+    void    destroyFirstBullet(Bullet *);
+    void    destroyFirstEnemy(Enemy *);
 
 private:
     int     interval;
     WINDOW	*win;
     Player  player;
-    Enemy   *enemies;
-    Bullet	*bullets;
 
     int 	ft_min(int a, int b);
     int 	ft_max(int a, int b);

@@ -1,4 +1,5 @@
 #include "Enemy.hpp"
+#include "Game.hpp"
 
 const int Enemy::c_move_ap = 30;
 // const int Enemy::c_move_ap = 5;
@@ -33,13 +34,18 @@ Enemy::~Enemy() {
     this->next->prev = this->prev;
 }
 
-void    Enemy::update(){
+void    Enemy::update(Enemy ***map, Game &game){
     if (this->move_ap <= 0) {
         this->move_ap = Enemy::c_move_ap;
         this->move(KEY_LEFT);
     } else {
         this->move_ap--;
     }
+    if (this->getX() < 1) {
+        game.destroyFirstEnemy(this);
+        delete this;
+    } else
+        map[game.enemies->getX()][game.enemies->getY()] = game.enemies;
 }
 
 void Enemy::display(WINDOW * win) {
