@@ -3,7 +3,7 @@
 #include "Bullet.hpp"
 # include "Game.hpp"
 
-const int Player::c_shoot_ap = 40;
+const int Player::c_shoot_ap = 70;
 
 Player::Player() : AGameEntity(3, 25, -1, Player::c_shoot_ap){
 }
@@ -31,15 +31,13 @@ void	Player::update(Enemy ***map, Game &game) {
 	} else {
 		this->shoot_ap--;
 	}
-	// (void)map;
-	// (void)game;
 	if (map[this->x][this->y]) {
 		game.exit = true;
 	}
 }
 
 void	Player::display(WINDOW * win){
-	start_color();			/* Start color 			*/
+	start_color();
 	init_pair(1, COLOR_RED, COLOR_BLACK);
 
 	attron(COLOR_PAIR(1));
@@ -59,7 +57,7 @@ void	Player::move(int key){
 		this->y--;
 	} else if (key == KEY_LEFT && this->x > 1){
 		this->x--;
-	}else if (key == KEY_RIGHT && this->x < max_x - 1){
+	}else if (key == KEY_RIGHT && this->x < max_x - 2){
 		this->x++;
 	}
 }

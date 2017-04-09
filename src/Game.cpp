@@ -33,6 +33,18 @@ Game::Game(Game const &src) {
 }
 
 Game::~Game() {
+	Enemy *tmp;
+	Bullet *ptr;
+	while (this->enemies) {
+		tmp = this->enemies;
+		this->destroyFirstEnemy(tmp);
+        delete tmp;
+	}
+	while (this->bullets) {
+		ptr = this->bullets;
+		this->destroyFirstBullet(ptr);
+        delete ptr;
+	}
 	endwin();
 }
 
@@ -62,10 +74,12 @@ void	Game::update(){
 
 	if(this->enemies){
 		this->enemies->update(this->map, *this);
-		Enemy	* tmp = this->enemies->next;
-		while(tmp != this->enemies){
-			tmp->update(this->map, *this);
-			tmp = tmp->next;
+		if (this->enemies){
+			Enemy	* tmp = this->enemies->next;
+			while(tmp != this->enemies){
+				tmp->update(this->map, *this);
+				tmp = tmp->next;
+			}
 		}
 	}
 	this->player.update(this->map, *this);
@@ -150,74 +164,6 @@ void    Game::destroyFirstEnemy(Enemy *toDel) {
 	}
 }
 
-//
-// void    Game::colide() {
-// 	Enemy *map[COLS][LINES];
-// 	int x, y;
-//
-// 	for (int i = 0; i < COLS; i++) {
-// 		for (int j = 0; j < LINES; j++) {
-// 			map[i][j] = NULL;
-// 		}
-// 	}
-// 	if(this->enemies){
-// 		Enemy *ptr = this->enemies;
-// 		if (ptr->getX() < 1) {
-// 			this->enemies = ptr->prev;
-// 			if (this->enemies == ptr)
-// 				this->enemies = NULL;
-// 			delete ptr;
-// 		} else
-// 			map[this->enemies->getX()][this->enemies->getY()] = this->enemies;
-// 		ptr = this->enemies->next;
-// 		while(ptr != this->enemies){
-// 			if (ptr->getX() < 1) {
-// 				this->enemies = ptr->prev;
-// 				if (this->enemies == ptr)
-// 					this->enemies = NULL;
-// 				delete ptr;
-// 			} else
-// 				map[ptr->getX()][ptr->getY()] = ptr;
-// 			ptr = ptr->next;
-// 		}
-// 	}
-// 	if(this->bullets){
-// 		Bullet	* tmp = this->bullets;
-// 		x = tmp->getX();
-// 		y = tmp->getY();
-// 		if (x > COLS - 4 || map[x][y] != NULL) {
-// 			this->bullets = tmp->prev;
-// 			if (this->bullets == tmp)
-// 				this->bullets = NULL;
-// 			delete tmp;
-// 		}
-// 		if (map[x][y] != NULL) {
-// 			this->enemies = map[x][y]->prev;
-// 			if (this->enemies == map[x][y])
-// 				this->enemies = NULL;
-// 			delete map[x][y];
-// 		}
-// 		tmp = this->bullets->next;
-// 		while(tmp != this->bullets){
-// 			x = tmp->getX();
-// 			y = tmp->getY();
-// 			if (x > COLS - 4 || map[x][y] != NULL) {
-// 				this->bullets = tmp->prev;
-// 				if (this->bullets == tmp)
-// 					this->bullets = NULL;
-// 				delete tmp;
-// 			}
-// 			if (map[x][y] != NULL) {
-// 				this->enemies = map[x][y]->prev;
-// 				if (this->enemies == map[x][y])
-// 					this->enemies = NULL;
-// 				delete map[x][y];
-// 			}
-// 			tmp = tmp->next;
-// 		}
-// 	}
-// }
-
 void Game::loop() {
 	std::clock_t start = std::clock();
 	double		duration;
@@ -242,7 +188,6 @@ void Game::loop() {
 			this->interval += (this->interval > 120) ? -1 : 0;
 			i = 0;
 		}
-		// this->colide();
 		this->display();
 		duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
 		if (duration < fps) {
@@ -261,7 +206,7 @@ void Game::randomEnemy(int nbr) {
 
 	for (int i = 0; i < nbr; i++) {
 		line = (rand() % (this->height - 2)) + 1;
-		col = this->width - 1;
+		col = this->width - 2;
 
 		if (this->enemies != NULL){
 			new Enemy(col, line, this->enemies);

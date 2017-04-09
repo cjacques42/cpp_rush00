@@ -1,8 +1,7 @@
 #include "Enemy.hpp"
 #include "Game.hpp"
 
-const int Enemy::c_move_ap = 30;
-// const int Enemy::c_move_ap = 5;
+const int Enemy::c_move_ap = 25;
 
 Enemy::Enemy() {
 
