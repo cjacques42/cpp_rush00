@@ -53,6 +53,7 @@ void	Bullet::update(Enemy ***map, Game &game){
 	if (this->getX() >= max_x - 1 || map[this->x][this->y]) {
 		if (!(this->getX() >= max_x - 1) &&  map[this->x][this->y]) {
 			game.destroyFirstEnemy(map[this->x][this->y]);
+			game.score += 10;
 			delete map[this->x][this->y];
 			map[this->x][this->y] = NULL;
 		}

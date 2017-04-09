@@ -19,6 +19,9 @@ public:
     Bullet	*bullets;
     int     width;
     int     height;
+    int     score;
+    int     life;
+    char    timer[5];
 
 	Game(void);
 	Game(Game const &);
@@ -33,6 +36,7 @@ public:
     void    update();
     void    destroyFirstBullet(Bullet *);
     void    destroyFirstEnemy(Enemy *);
+    void    freeMap();
 
 private:
     int     interval;

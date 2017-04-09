@@ -8,7 +8,7 @@ const int Player::c_shoot_ap = 70;
 Player::Player() : AGameEntity(3, 25, -1, Player::c_shoot_ap){
 }
 
-Player::Player(Game * game) : AGameEntity(30, 25, -1, Player::c_shoot_ap), game(game){
+Player::Player(Game * game) : AGameEntity(3, 25, -1, Player::c_shoot_ap), game(game){
 }
 
 Player::Player(Player const &instance){
@@ -32,7 +32,13 @@ void	Player::update(Enemy ***map, Game &game) {
 		this->shoot_ap--;
 	}
 	if (map[this->x][this->y]) {
-		game.exit = true;
+		if (game.life <= 0)
+			game.exit = true;
+		else {
+			game.life -= 1;
+			game.destroyFirstEnemy(map[this->x][this->y]);
+	        delete map[this->x][this->y];
+		}
 	}
 }
 
