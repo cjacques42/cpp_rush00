@@ -12,6 +12,9 @@ Game::Game() : exit(false), enemies(NULL), bullets(NULL), score(0), life(3), int
 	noecho();
 	nodelay(stdscr, TRUE);
 
+    start_color();
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+
 	curs_set(0);
 
 	this->width = COLS - 2;

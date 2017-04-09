@@ -85,8 +85,6 @@ void	Bullet::update(Game &game){
 }
 
 void	Bullet::display(WINDOW * win){
-	start_color();			/* Start color 			*/
-	init_pair(1, COLOR_RED, COLOR_BLACK);
 
 	attron(COLOR_PAIR(1));
 	mvwaddch(win, this->y, this->x, '-');
