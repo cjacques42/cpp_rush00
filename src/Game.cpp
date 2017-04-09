@@ -27,11 +27,11 @@ Game::Game(Game const &src) {
 }
 
 Game::~Game() {
-	Enemy *tmp;
+	AEnemy *tmp;
 	Bullet *ptr;
 	while (this->enemies) {
 		tmp = this->enemies;
-		this->destroyFirstEnemy(tmp);
+		this->destroyFirstAEnemy(tmp);
         delete tmp;
 	}
 	while (this->bullets) {
@@ -66,10 +66,12 @@ void	Game::update(){
 	if(this->enemies){
 		this->enemies->update(*this);
 		if (this->enemies){
-			Enemy	* tmp = this->enemies->next;
+			AEnemy	* tmp = this->enemies->next;
+			AEnemy	* tmp_tmp;
 			while(tmp != this->enemies){
+				tmp_tmp = tmp->next;
 				tmp->update(*this);
-				tmp = tmp->next;
+				tmp = tmp_tmp;
 			}
 		}
 	}
@@ -78,9 +80,11 @@ void	Game::update(){
 		this->bullets->update(*this);
 		if (this->bullets){
 			Bullet	* tmp = this->bullets->next;
+			Bullet	* tmp_tmp;
 			while(tmp != this->bullets){
+				tmp_tmp = tmp->next;
 				tmp->update(*this);
-				tmp = tmp->next;
+				tmp = tmp_tmp;
 			}
 		}
 
@@ -126,7 +130,7 @@ void	Game::display(){
 	}
 	if(this->enemies){
 		this->enemies->display(win);
-		Enemy	* tmp = this->enemies->next;
+		AEnemy	* tmp = this->enemies->next;
 		while(tmp != this->enemies){
 			tmp->display(this->win);
 			tmp = tmp->next;
@@ -145,7 +149,7 @@ void    Game::destroyFirstBullet(Bullet *toDel) {
 	}
 }
 
-void    Game::destroyFirstEnemy(Enemy *toDel) {
+void    Game::destroyFirstAEnemy(AEnemy *toDel) {
 	if (this->enemies == toDel) {
 		this->enemies = toDel->prev;
 		if (this->enemies == toDel)
@@ -158,7 +162,7 @@ void Game::loop() {
 	std::time_t t = std::time(NULL);
 	double		duration;
 	int         fps = 1000 / Game::FPS;
-	int			i = 0;
+	int			i = 799;
 
 	int ch;
 
@@ -175,7 +179,7 @@ void Game::loop() {
 		}
 		this->update();
 		if (this->interval == i++) {
-			this->randomEnemy(3);
+			this->randomAEnemy(5);
 			this->interval += (this->interval > 120) ? -1 : 0;
 			i = 0;
 		}
@@ -193,18 +197,27 @@ WINDOW *Game::getWindow() const {
 	return this->win;
 }
 
-void Game::randomEnemy(int nbr) {
+void Game::randomAEnemy(int nbr) {
 	int line;
 	int col;
+	int type;
 
 	for (int i = 0; i < nbr; i++) {
+
+		type = rand() % 2;
 		line = (rand() % (this->height - 2)) + 1;
 		col = this->width - 2;
 
 		if (this->enemies != NULL){
-			new Enemy(col, line, this->enemies);
+			if (type == 0)
+				new SmallShip(col, line, this->enemies);
+			if (type == 1)
+				new Scenery(col, line, col + (rand() % 10 + 1) , line + (rand() % 10 + 1) , this->enemies);
 		} else {
-			this->enemies = new Enemy(col, line);
+			if (type == 0)
+				this->enemies = new SmallShip(col, line);
+			if (type == 1)
+				this->enemies = new Scenery(col, line, col + (rand() % 10 + 1) , line + (rand() % 10 + 1) );
 		}
 	}
 }

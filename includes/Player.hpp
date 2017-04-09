@@ -4,7 +4,7 @@
 
 # include "AGameEntity.hpp"
 class Game;
-class Enemy;
+class AEnemy;
 
 class Player : public AGameEntity
 {

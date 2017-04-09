@@ -31,14 +31,17 @@ void	Player::update(Game &game) {
 	} else {
 		this->shoot_ap--;
 	}
-	Enemy *tmp = game.enemies;
+	AEnemy *tmp = game.enemies;
 	if (tmp){
-		if (tmp->getX() == this->x && tmp->getY() == this->y){
+		if (tmp->collide(this->x, this->y)){
+			if (!tmp->isDestructible()){
+				game.exit = true;
+			}
 			if (game.life <= 0)
 				game.exit = true;
 			else {
 				game.life -= 1;
-				game.destroyFirstEnemy(tmp);
+				game.destroyFirstAEnemy(tmp);
 		        delete tmp;
 		        tmp = NULL;
 			}
@@ -46,12 +49,15 @@ void	Player::update(Game &game) {
 		if (tmp){
 			tmp = tmp->next;
 			while (tmp && tmp != game.enemies){
-				if (tmp->getX() == this->x && tmp->getY() == this->y){
+				if (tmp->collide(this->x, this->y)){
+					if (!tmp->isDestructible()){
+						game.exit = true;
+					}
 					if (game.life <= 0)
 						game.exit = true;
 					else {
 						game.life -= 1;
-						game.destroyFirstEnemy(tmp);
+						game.destroyFirstAEnemy(tmp);
 				        delete tmp;
 				        tmp = NULL;
 					}

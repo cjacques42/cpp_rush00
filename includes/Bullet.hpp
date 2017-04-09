@@ -4,7 +4,7 @@
 # include "ft_retro.hpp"
 # include "AGameEntity.hpp"
 
-class Enemy;
+class AEnemy;
 class Game;
 
 class Bullet : public AGameEntity

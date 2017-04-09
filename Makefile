@@ -22,7 +22,9 @@ SRC_NAME =	main.cpp\
 			Player.cpp\
 			Game.cpp\
 			Bullet.cpp\
-			Enemy.cpp
+			AEnemy.cpp\
+			Scenery.cpp\
+			SmallShip.cpp
 
 OBJ_NAME = $(SRC_NAME:.cpp=.o)
 OBJ = $(addprefix $(OBJ_PATH), $(OBJ_NAME))

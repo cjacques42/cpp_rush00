@@ -51,25 +51,29 @@ void	Bullet::update(Game &game){
 		game.destroyFirstBullet(this);
 		delete this;
 	} else {
-		Enemy * tmp = game.enemies;
+		AEnemy * tmp = game.enemies;
 		if (tmp){
-			if (tmp->getX() == this->x && tmp->getY() == this->y){
-				game.destroyFirstEnemy(tmp);
-				delete tmp;
+			if (tmp->collide(this->x, this->y)){
+				if (tmp->isDestructible()) {
+					game.destroyFirstAEnemy(tmp);
+					delete tmp;
+					tmp = NULL;
+					game.score += 10;
+				}
 				game.destroyFirstBullet(this);
 				delete this;
-				tmp = NULL;
-				game.score += 10;
 			} else {
 				tmp = tmp->next;
 				while (tmp && tmp != game.enemies){
-					if (tmp->getX() == this->x && tmp->getY() == this->y){
-						game.destroyFirstEnemy(tmp);
-						delete tmp;
+					if (tmp->collide(this->x, this->y)){
+						if (tmp->isDestructible()) {
+							game.destroyFirstAEnemy(tmp);
+							delete tmp;
+							tmp = NULL;
+							game.score += 10;
+						}
 						game.destroyFirstBullet(this);
 						delete this;
-						tmp = NULL;
-						game.score += 10;
 					}
 					if (tmp)
 						tmp = tmp->next;
