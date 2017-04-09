@@ -111,6 +111,12 @@ void    Game::colide() {
 		x = this->bullets->getX();
 		y = this->bullets->getY();
 		if (x > COLS - 1 || y > LINES - 1 || map[x][y]) {
+			this->enemies = map[x][y]->prev;
+			this->bullets = this->bullets->prev;
+			if (this->enemies == map[x][y])
+				this->enemies = NULL;
+			if (this->bullets == this->bullets)
+				this->bullets = NULL;
 			delete map[x][y];
 			delete this->bullets;
 		}
@@ -119,7 +125,13 @@ void    Game::colide() {
 			x = tmp->getX();
 			y = tmp->getY();
 			if (x > COLS - 1 || y > LINES - 1 || map[x][y]) {
-				delete map[tmp->getX()][tmp->getY()];
+				this->enemies = map[x][y]->prev;
+				this->bullets = tmp->prev;
+				if (this->enemies == map[x][y])
+					this->enemies = NULL;
+				if (this->bullets == tmp)
+					this->bullets = NULL;
+				delete map[x][y];
 				delete tmp;
 			}
 			tmp = tmp->next;
