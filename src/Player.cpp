@@ -54,13 +54,9 @@ void	Player::display(WINDOW * win){
 void	Player::move(int key){
 	int max_x, max_y;
 
-<<<<<<< HEAD
-	max_x = getmaxx(this->game->getWindow());
-	max_y = getmaxy(this->game->getWindow());
-=======
+
 	max_x = this->game->width;
 	max_y = this->game->height;
->>>>>>> master
 
 	if (key == KEY_DOWN && this->y < max_y - 2){
 		this->y++;
